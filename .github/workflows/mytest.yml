@@ -1,0 +1,40 @@
+name: mytest
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Action
+        default: delete
+        required: true
+env:
+  test: "12345"
+
+jobs:
+  mysecret:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        env: # Or as an environment variable
+          ENV_SECRET: ${{ secrets.ENV_SECRET }}
+          TEST_SECRET: ${{ secrets.TEST_SECRET }}
+        run: |
+          set -x
+          echo ${{ github.event.inputs.version }}
+          echo "${ENV_SECRET}"
+          echo "${ENV_SECRET}" > /tmp/del
+          cat /tmp/del
+          ls -la /tmp/del
+          rm /tmp/del
+          env | grep ENV_SECRET || true
+          echo "Secret_env: env_secret_12345"
+          echo "${TEST_SECRET}"
+          echo "${TEST_SECRET}" > /tmp/del
+          cat /tmp/del
+          ls -la /tmp/del
+          env | grep TEST_SECRET || true
+          echo "Secret_test: test_secret_12345"
+          env > /tmp/del
+          grep SECRET /tmp/del || true
+          echo "::add-mask::${{ secrets.MASK_TEST }}"
+          echo "mask_test_12345"
