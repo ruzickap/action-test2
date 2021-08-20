@@ -13,8 +13,10 @@ on:
     paths:
       - .github/workflows/mytest.yml
       - docs/**
-      - create*.sh
-      - delete*.sh
+      - create-*.sh
+      - delete-*.sh
+      - docker-create-*.sh
+      - docker-delete-*.sh
 
 jobs:
   create:
