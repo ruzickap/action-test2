@@ -1,10 +1,5 @@
 name: mytest
 
-# workflow_dispatch - do just create or just delete. Both with proper dependency + stop if create fail!
-
-# Push to master - run create and always delete
-
-
 on:
   workflow_dispatch:
     inputs:
@@ -17,13 +12,17 @@ on:
       - master
     paths:
       - .github/workflows/mytest.yml
+      - docs/**
+      - create*.sh
+      - delete*.sh
 
 jobs:
   create:
     runs-on: ubuntu-latest
+    if: ${{ contains(github.event.inputs.version, 'create') || ( github.event_name == 'push' && github.ref == 'refs/heads/master' ) }}
     steps:
       - name: Test - create
-        if: ${{ contains(github.event.inputs.version, 'create') || ( github.event_name == 'push' && github.ref == 'refs/heads/master' ) }}
+        # if: ${{ contains(github.event.inputs.version, 'create') || ( github.event_name == 'push' && github.ref == 'refs/heads/master' ) }}
         run: |
           set -x
           echo ${{ github.event.inputs.version }}
