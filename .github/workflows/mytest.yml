@@ -27,12 +27,21 @@ jobs:
         run: |
           set -x
           echo ${{ github.event.inputs.version }}
-          #exit 0
-          exit 1
+          export COMPOSE_INTERACTIVE_NO_CLI=1
+          docker run -it --rm \
+            -v "${PWD}:/mnt" \
+            -w /mnt \
+            ubuntu \
+            bash -eu -c " \
+              date ;\
+            "
+          exit 0
+          #exit 1
 
   delete:
     runs-on: ubuntu-latest
     needs: create
+    # PR
     if: ${{ contains(github.event.inputs.version, 'delete') || ( github.event_name == 'push' && github.ref == 'refs/heads/master' && always() ) }}
     steps:
       - name: Test - delete
