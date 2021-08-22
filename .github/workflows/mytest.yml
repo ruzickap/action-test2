@@ -18,6 +18,8 @@ on:
       - docker-create-*.sh
       - docker-delete-*.sh
 
+concurrency: test123
+
 jobs:
   create:
     runs-on: ubuntu-latest
@@ -28,13 +30,15 @@ jobs:
           set -x
           echo ${{ github.event.inputs.version }}
           export COMPOSE_INTERACTIVE_NO_CLI=1
-          docker run -it --rm \
+          docker run -i --rm \
             -v "${PWD}:/mnt" \
             -w /mnt \
             ubuntu \
             bash -eu -c " \
               date ;\
+              ls --color -lh /
             "
+          sleep 300
           exit 0
           #exit 1
 
