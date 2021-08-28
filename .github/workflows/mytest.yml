@@ -7,6 +7,10 @@ on:
         description: Action
         default: create, delete
         required: true
+      cluster_name:
+        description: Cluster Name
+        default: kube2
+        required: false
   push:
     branches:
       - master
@@ -18,6 +22,9 @@ on:
       - docker-create-*.sh
       - docker-delete-*.sh
 
+env:
+  CLUSTER_NAME: kube3
+
 concurrency: test123
 
 jobs:
@@ -25,10 +32,16 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ contains(github.event.inputs.version, 'create') || ( github.event_name == 'push' && github.ref == 'refs/heads/master' ) }}
     steps:
+      - name: Replace CLUSTER_NAME variable if defined manually
+        if: ${{ github.event.inputs.cluster_name }}
+        run: |
+          echo "CLUSTER_NAME=${{ github.event.inputs.cluster_name }}" >> $GITHUB_ENV
+
       - name: Test - create
         run: |
           set -x
-          echo ${{ github.event.inputs.version }}
+          echo "version: ${{ github.event.inputs.version }}"
+          echo "CLUSTER_NAME: ${CLUSTER_NAME}"
           export COMPOSE_INTERACTIVE_NO_CLI=1
           docker run -i --rm \
             -v "${PWD}:/mnt" \
@@ -38,7 +51,7 @@ jobs:
               date ;\
               ls --color -lh /
             "
-          sleep 300
+          #sleep 300
           exit 0
           #exit 1
 
