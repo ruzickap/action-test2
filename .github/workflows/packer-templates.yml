@@ -13,7 +13,7 @@ on:
         required: true
       ANSIBLE_DEBUG:
         description: ANSIBLE_DEBUG
-        default: false
+        default: "false"
         required: true
       VAGRANT_LOG:
         description: VAGRANT_LOG
