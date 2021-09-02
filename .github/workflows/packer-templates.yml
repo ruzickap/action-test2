@@ -21,7 +21,7 @@ on:
         required: true
       build_release_upload:
         description: Upload release to Vagrant Cloud
-        default: false
+        default: "false"
         required: false
   push:
     paths:
