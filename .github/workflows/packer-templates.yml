@@ -10,15 +10,15 @@ on:
       PACKER_LOG:
         description: PACKER_LOG
         default: 0
-        required: false
+        required: true
       ANSIBLE_DEBUG:
         description: ANSIBLE_DEBUG
         default: false
-        required: false
+        required: true
       VAGRANT_LOG:
         description: VAGRANT_LOG
         default: warn
-        required: false
+        required: true
       build_release_upload:
         description: Upload release to Vagrant Cloud
         default: false
@@ -49,6 +49,14 @@ jobs:
           echo "skip=true" >> $GITHUB_ENV
 
       - name: Install packages
+        if: env.skip != 'true' && github.event_name != 'workflow_dispatch'
+        run: |
+          set -x
+          echo "PACKER_LOG=${{ github.event.inputs.PACKER_LOG }}" >> $GITHUB_ENV
+          echo "ANSIBLE_DEBUG=${{ github.event.inputs.ANSIBLE_DEBUG }}" >> $GITHUB_ENV
+          echo "VAGRANT_LOG=${{ github.event.inputs.VAGRANT_LOG }}" >> $GITHUB_ENV
+
+      - name: Install packages
         if: env.skip != 'true'
         run: |
           set -x
@@ -59,6 +67,7 @@ jobs:
         if: env.skip != 'true' && ( github.event_name == 'repository_dispatch' && github.event.client_payload )
         run: |
           echo "${{ matrix.stage }}"
+          echo "$PACKER_LOG | $ANSIBLE_DEBUG | $VAGRANT_LOG"
 
       - name: Build image
         if: env.skip != 'true'
