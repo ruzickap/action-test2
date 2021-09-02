@@ -42,7 +42,7 @@ jobs:
 
     steps:
       - name: Test contains
-        if: ${{ ! contains(github.event.inputs.build, matrix.stage) }}
+        if: ${{ contains(github.event.inputs.build, matrix.stage) }}
         run: |
           set -x
           echo "${{ matrix.stage }} | ${{ github.event.inputs.build }} | ${{ github.event_name }}"
