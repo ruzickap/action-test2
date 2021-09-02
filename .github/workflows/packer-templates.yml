@@ -52,6 +52,7 @@ jobs:
           set -x
           echo "${{ matrix.stage }} | ${{ github.event.inputs.build }} | ${{ github.event_name }}"
           echo ${{ contains(github.event.inputs.build, matrix.stage) }}
+          echo ${{ contains(matrix.stage, github.event.inputs.build) }}
 
       - name: Skip test
         if: ${{ matrix.stage != github.event.inputs.build && github.event_name != 'push' && ! contains(github.event.inputs.build, 'all') }}
