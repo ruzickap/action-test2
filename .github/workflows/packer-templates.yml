@@ -23,11 +23,9 @@ on:
         description: Upload release to Vagrant Cloud
         default: false
         required: false
-  push:
-    # branches:
-    #   - master
-    paths:
-      - .github/workflows/packer-templates.yml
+  # push:
+  #   paths:
+  #     - .github/workflows/packer-templates.yml
 
 jobs:
   build-boxes:
@@ -65,7 +63,7 @@ jobs:
         if: github.event_name != 'schedule' || ! contains(matrix.stage, github.event.inputs.build)
         run: |
           set -x
-          echo "skip=true" >> $GITHUB_ENV
+          echo "skip=true ${{ matrix.stage }} | ${{ github.event.inputs.build }}" >> $GITHUB_ENV
 
       - uses: actions/checkout@v2
         if: env.skip != 'true'
