@@ -42,17 +42,23 @@ jobs:
 
     steps:
       - name: Test contains
-        if: ${{ contains(matrix.stage, github.event.inputs.build) }}
+        if: ${{ contains(github.event.inputs.build, 'my_windows-10-enterprise-x64-eval-libvirt' ) }}
         run: |
           set -x
           echo "${{ matrix.stage }} | ${{ github.event.inputs.build }} | ${{ github.event_name }}"
 
       - name: Test contains 2
+        if: ${{ contains(github.event.inputs.build, matrix.stage ) }}
+        run: |
+          set -x
+          echo "${{ matrix.stage }} | ${{ github.event.inputs.build }} | ${{ github.event_name }}"
+
+      - name: Test contains 3
         run: |
           set -x
           echo "${{ matrix.stage }} | ${{ github.event.inputs.build }} | ${{ github.event_name }}"
           echo ${{ contains(github.event.inputs.build, matrix.stage) }}
-          echo ${{ contains(matrix.stage, github.event.inputs.build) }}
+          echo ${{ contains(github.event.inputs.build, 'my_windows-10-enterprise-x64-eval-libvirt' ) }}
 
       - name: Skip test
         if: ${{ matrix.stage != github.event.inputs.build && github.event_name != 'push' && ! contains(github.event.inputs.build, 'all') }}
