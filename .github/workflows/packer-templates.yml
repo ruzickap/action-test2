@@ -48,8 +48,8 @@ jobs:
           echo "${{ matrix.stage }} | ${{ github.event.inputs.build }} | ${{ github.event_name }}"
           echo "skip=true" >> $GITHUB_ENV
 
-      - name: Install packages
-        if: env.skip != 'true' && github.event_name != 'workflow_dispatch'
+      - name: Test123
+        if: env.skip != 'true' && github.event_name == 'workflow_dispatch'
         run: |
           set -x
           echo "PACKER_LOG=${{ github.event.inputs.PACKER_LOG }}" >> $GITHUB_ENV
