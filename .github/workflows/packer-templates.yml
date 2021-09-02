@@ -41,6 +41,12 @@ jobs:
           - my_windows-10-enterprise-x64-eval-virtualbox
 
     steps:
+      - name: Test contains
+        if: ${{ ! contains(github.event.inputs.build, matrix.stage) }}
+        run: |
+          set -x
+          echo "${{ matrix.stage }} | ${{ github.event.inputs.build }} | ${{ github.event_name }}"
+
       - name: Skip test
         if: ${{ matrix.stage != github.event.inputs.build && github.event_name != 'push' && ! contains(github.event.inputs.build, 'all') }}
         run: |

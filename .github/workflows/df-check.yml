@@ -10,7 +10,7 @@ jobs:
   check-mac:
     runs-on: macos-latest
     steps:
-      - name: sysctl
+      - name: df
         run: |
           set -x
           df -h /
