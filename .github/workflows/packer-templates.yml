@@ -42,7 +42,8 @@ jobs:
 
     steps:
       - name: Skip test
-        if: github.event_name != 'push' || ! contains(matrix.stage, github.event.inputs.build)
+        if: ${{ github.event_name != 'push' || matrix.stage == github.event.inputs.build }}
+        # ! contains(matrix.stage, github.event.inputs.build)
         run: |
           set -x
           echo "${{ matrix.stage }} | ${{ github.event.inputs.build }}"
