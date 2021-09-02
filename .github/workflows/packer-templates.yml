@@ -79,11 +79,11 @@ jobs:
           echo ${{ matrix.stage }}
 
       - name: Upload box to Vagrant Cloud
-        if: env.skip != 'true' && ( github.event_name == 'schedule' || ( github.event_name == 'repository_dispatch' && github.event.action == 'build_release_upload' ) )
+        if: env.skip != 'true' && ( github.event_name == 'schedule' || github.event.inputs.build_release_upload )
         env:
           BOX_VERSION: ${{ env.BOX_VERSION }}
         run: |
-          echo ${{ matrix.stage }}
+          echo ${{ matrix.stage }} xxxxxxx
 
   clean_check_versions:
     needs: build-boxes
