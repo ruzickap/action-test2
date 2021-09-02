@@ -1,0 +1,36 @@
+name: df-check
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/virt-check.yml
+
+jobs:
+  check-mac:
+    runs-on: macos-latest
+    steps:
+      - name: sysctl
+        run: |
+          set -x
+          df -h /
+          brew remove --force $(brew list --formula)
+          df -h /
+          brew remove --force $(brew list --casks)
+          # brew uninstall --formula ant aws-sam-cli aspell azure-cli cmake gcc gcc@9 gradle helm icu4c maven mongosh mongodb-community mongodb-database-tools node@14 openjdk php postgresql python@3.8 selenium-server-standalone
+          # df -h /
+          # brew uninstall --cask chromedriver firefox google-chrome julia microsoft-auto-update microsoft-edge powershell r session-manager-plugin soundflower
+          # sudo du -sh /* 2>/dev/null || true
+          df -h /
+          rm -rf /Users/runner/hostedtoolcache/
+          df -h /
+          brew cleanup -s
+          df -h /
+          rm -rf "$(brew --cache)"
+          df -h /
+          # brew list --casks
+          # set +x
+          # brew install findutils
+          # brew list --formula | xargs  -P8 -I {} \
+          #   sh -c "brew info {} | egrep '[0-9]* files, ' | sed 's/^.*[0-9]* files, \(.*\)).*$/{} \1/'" | \
+          #   sort -h -r -k2 - | column -t | grep MB | sort -k2 -g
