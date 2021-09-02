@@ -61,13 +61,12 @@ jobs:
         run: |
           set -x
           echo "${{ matrix.stage }} | ${{ github.event.inputs.build }}"
-          echo "${{ matrix.stage }}"
+          echo "$PACKER_LOG | $ANSIBLE_DEBUG | $VAGRANT_LOG"
 
       - name: Set environment variables from payload
         if: env.skip != 'true' && ( github.event_name == 'repository_dispatch' && github.event.client_payload )
         run: |
           echo "${{ matrix.stage }}"
-          echo "$PACKER_LOG | $ANSIBLE_DEBUG | $VAGRANT_LOG"
 
       - name: Build image
         if: env.skip != 'true'
