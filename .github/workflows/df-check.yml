@@ -15,10 +15,8 @@ jobs:
           set -x
           df -h /
           # brew remove --force $(brew list --formula)
-          brew list --formula | while IFS='' read -r BREW_FORMULA
-          do
-            brew remove --force "${BREW_FORMULA}"
-          done
+          read -ra args < <(brew list --formula)
+          brew remove --force "${args[@]}"
           # df -h /
           # brew remove --force $(brew list --casks)
           # sudo du -sh /* 2>/dev/null || true
