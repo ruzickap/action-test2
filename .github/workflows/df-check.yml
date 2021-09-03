@@ -19,7 +19,13 @@ jobs:
           # IFS=$'\n' read -rd '' -a args < <(brew list --formula)
           # echo "${args[@]}"
           # brew remove --force "${args[@]}"
+          brew install bash
           /usr/local/bin/bash --version
+          /usr/local/bin/bash -c "
+          readarray -t args < <(brew list --formula) ;
+          echo "${args[@]}" ;
+          brew remove --force "${args[@]}" ;
+          "
           # df -h /
           # brew remove --force $(brew list --casks)
           # sudo du -sh /* 2>/dev/null || true
