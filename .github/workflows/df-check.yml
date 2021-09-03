@@ -49,3 +49,22 @@ jobs:
           VirtualBox --help
           brew upgrade virtualbox
           brew install virtualbox
+
+
+      - name: Install packages - SKIP
+        if: ${{ env.skip == 'true' }}
+        run: |
+          set -x
+          [[ -f /usr/local/bin/2to3 ]] && rm /usr/local/bin/2to3
+          brew update > /dev/null
+          brew install bash coreutils gnu-sed packer vagrant
+          if [[ "${{ matrix.stage }}" =~ "libvirt" ]]; then
+            brew install qemu xorriso
+          fi
+          if [[ "${{ matrix.stage }}" =~ "virtualbox" ]]; then
+            brew install virtualbox
+            brew install --cask virtualbox-extension-pack
+          fi
+          pip3 install ansible==4.5.0 pywinrm==0.4.2
+          ansible-galaxy collection install ansible.windows:=1.7.2 chocolatey.chocolatey:=1.1.0
+          echo "/usr/local/bin:/usr/local/opt/gnu-sed/libexec/gnubin:/usr/local/opt/coreutils/libexec/gnubin" >> "${GITHUB_PATH}"
