@@ -14,10 +14,8 @@ jobs:
         run: |
           set -x
           df -h /
-          bash --version
-          which bash
           # brew remove --force $(brew list --formula)
-          readarray -t args < <(brew list --formula)
+          IFS=$'\n' read -rd '' -a args < <(brew list --formula)
           brew remove --force "${args[@]}"
           # df -h /
           # brew remove --force $(brew list --casks)
