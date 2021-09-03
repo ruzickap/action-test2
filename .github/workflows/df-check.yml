@@ -34,6 +34,7 @@ jobs:
           VirtualBox --help
           brew upgrade virtualbox
           VirtualBox --help
-          brew update
+          brew update &> /dev/null
           VirtualBox --help
           brew upgrade virtualbox
+          brew install virtualbox
