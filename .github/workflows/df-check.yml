@@ -15,7 +15,7 @@ jobs:
           set -x
           df -h /
           # brew remove --force $(brew list --formula)
-          read -ra args < <(brew list --formula)
+          readarray -t args < <(brew list --formula)
           brew remove --force "${args[@]}"
           # df -h /
           # brew remove --force $(brew list --casks)
