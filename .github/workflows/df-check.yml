@@ -11,32 +11,33 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: df
-        run: |
-          set -x
-          df -h /
-          # brew remove --force $(brew list --formula)
-          IFS=$'\n' read -rd '' -a args < <(brew list --formula)
-          brew remove --force "${args[@]}"
-          # df -h /
-          # brew remove --force $(brew list --casks)
-          # sudo du -sh /* 2>/dev/null || true
-          # df -h /
-          # rm -rf /Users/runner/hostedtoolcache/
-          # df -h /
-          # brew cleanup -s
-          # df -h /
-          # rm -rf "$(brew --cache)"
-          # df -h /
-          # brew list --casks
-          # set +x
-          # brew install findutils
-          # brew list --formula | xargs  -P8 -I {} \
-          #   sh -c "brew info {} | egrep '[0-9]* files, ' | sed 's/^.*[0-9]* files, \(.*\)).*$/{} \1/'" | \
-          #   sort -h -r -k2 - | column -t | grep MB | sort -k2 -g
-          VirtualBox --help
-          brew upgrade virtualbox
-          VirtualBox --help
-          brew update &> /dev/null
-          VirtualBox --help
-          brew upgrade virtualbox
-          brew install virtualbox
+        - shell: bash
+          run: |
+            set -x
+            df -h /
+            # brew remove --force $(brew list --formula)
+            IFS=$'\n' read -rd '' -a args < <(brew list --formula)
+            brew remove --force "${args[@]}"
+            # df -h /
+            # brew remove --force $(brew list --casks)
+            # sudo du -sh /* 2>/dev/null || true
+            # df -h /
+            # rm -rf /Users/runner/hostedtoolcache/
+            # df -h /
+            # brew cleanup -s
+            # df -h /
+            # rm -rf "$(brew --cache)"
+            # df -h /
+            # brew list --casks
+            # set +x
+            # brew install findutils
+            # brew list --formula | xargs  -P8 -I {} \
+            #   sh -c "brew info {} | egrep '[0-9]* files, ' | sed 's/^.*[0-9]* files, \(.*\)).*$/{} \1/'" | \
+            #   sort -h -r -k2 - | column -t | grep MB | sort -k2 -g
+            VirtualBox --help
+            brew upgrade virtualbox
+            VirtualBox --help
+            brew update &> /dev/null
+            VirtualBox --help
+            brew upgrade virtualbox
+            brew install virtualbox
