@@ -16,7 +16,6 @@ jobs:
           set -x
           # df -h /
           # brew remove --force $(brew list --formula)
-          find / -name bash
           which brew
           brew list --formula
           IFS=$'\n' read -rd '' -a args < <(brew list --formula)
