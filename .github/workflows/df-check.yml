@@ -16,11 +16,10 @@ jobs:
           set -x
           # df -h /
           # brew remove --force $(brew list --formula)
-          which brew
-          brew list --formula
-          IFS=$'\n' read -rd '' -a args < <(brew list --formula)
-          echo "${args[@]}"
-          brew remove --force "${args[@]}"
+          # IFS=$'\n' read -rd '' -a args < <(brew list --formula)
+          # echo "${args[@]}"
+          # brew remove --force "${args[@]}"
+          /usr/local/bin/bash --version
           # df -h /
           # brew remove --force $(brew list --casks)
           # sudo du -sh /* 2>/dev/null || true
