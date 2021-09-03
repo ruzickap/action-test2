@@ -58,10 +58,11 @@ jobs:
           [[ -f /usr/local/bin/2to3 ]] && rm /usr/local/bin/2to3
           brew update > /dev/null
           brew install bash coreutils gnu-sed packer vagrant
-          if [[ "${{ matrix.stage }}" =~ "libvirt" ]]; then
+          MATRIX_STAGE=${{ matrix.stage }}
+          if [[ "${MATRIX_STAGE}" =~ "libvirt" ]]; then
             brew install qemu xorriso
           fi
-          if [[ "${{ matrix.stage }}" =~ "virtualbox" ]]; then
+          if [[ "${MATRIX_STAGE}" =~ "virtualbox" ]]; then
             brew install virtualbox
             brew install --cask virtualbox-extension-pack
           fi
