@@ -14,9 +14,13 @@ jobs:
         shell: bash
         run: |
           set -x
-          df -h /
+          # df -h /
           # brew remove --force $(brew list --formula)
+          find / -name bash
+          which brew
+          brew list --formula
           IFS=$'\n' read -rd '' -a args < <(brew list --formula)
+          echo "${args[@]}"
           brew remove --force "${args[@]}"
           # df -h /
           # brew remove --force $(brew list --casks)
