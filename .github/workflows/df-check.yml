@@ -15,13 +15,7 @@ jobs:
         run: |
           set -x
           df -h /
-          rm -rf /Applications/Xcode_12.{3,2,1}.app
-          df -h /
-          rm -rf /Users/runner/Library/Developer
-          df -h /
-          rm -rf /Users/runner/Library/Android
-          df -h /
-          rm -rf /Library/Frameworks
+          rm -rf /Users/runner/Library/Developer /Users/runner/Library/Android
           df -h /
           # brew remove --force $(brew list --formula)
           # IFS=$'\n' read -rd '' -a args < <(brew list --formula)
@@ -51,9 +45,7 @@ jobs:
           #   sh -c "brew info {} | egrep '[0-9]* files, ' | sed 's/^.*[0-9]* files, \(.*\)).*$/{} \1/'" | \
           #   sort -h -r -k2 - | column -t | grep MB | sort -k2 -g
           brew install dust
-          dust -r -b -n 100 /
           dust -r -b -n 100 /Users
-          dust -r -b -n 100 /Applications
           VirtualBox --help
           brew upgrade virtualbox 
           VirtualBox --help
