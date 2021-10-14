@@ -35,7 +35,7 @@ jobs:
       - name: Replace CLUSTER_NAME variable if defined manually
         if: ${{ github.event.inputs.cluster_name }}
         run: |
-          echo "CLUSTER_NAME=${{ github.event.inputs.cluster_name }}" >> $GITHUB_ENV
+          echo CLUSTER_NAME="${{ github.event.inputs.cluster_name }}" >> $GITHUB_ENV
 
       - name: Test - create
         run: |

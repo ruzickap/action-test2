@@ -14,7 +14,15 @@ jobs:
         shell: bash
         run: |
           set -x
-          # df -h /
+          df -h /
+          rm -rf /Applications/Xcode_12.{3,2,1}.app
+          df -h /
+          rm -rf /Users/runner/Library/Developer
+          df -h /
+          rm -rf /Users/runner/Library/Android
+          df -h /
+          rm -rf /Library/Frameworks
+          df -h /
           # brew remove --force $(brew list --formula)
           # IFS=$'\n' read -rd '' -a args < <(brew list --formula)
           # echo "${args[@]}"
@@ -42,8 +50,10 @@ jobs:
           # brew list --formula | xargs  -P8 -I {} \
           #   sh -c "brew info {} | egrep '[0-9]* files, ' | sed 's/^.*[0-9]* files, \(.*\)).*$/{} \1/'" | \
           #   sort -h -r -k2 - | column -t | grep MB | sort -k2 -g
-          brew install dust hudochenkov/sshpass/sshpass
-          dust -r -b -n 60 /
+          brew install dust
+          dust -r -b -n 100 /
+          dust -r -b -n 100 /Users
+          dust -r -b -n 100 /Applications
           VirtualBox --help
           brew upgrade virtualbox 
           VirtualBox --help
@@ -51,23 +61,3 @@ jobs:
           VirtualBox --help
           brew upgrade virtualbox
           brew install virtualbox
-
-
-      - name: Install packages - SKIP
-        if: ${{ env.skip == 'true' }}
-        run: |
-          set -x
-          [[ -f /usr/local/bin/2to3 ]] && rm /usr/local/bin/2to3
-          brew update > /dev/null
-          brew install bash coreutils gnu-sed packer vagrant
-          MATRIX_STAGE=${{ matrix.stage }}
-          if [[ "${MATRIX_STAGE}" =~ "libvirt" ]]; then
-            brew install qemu xorriso
-          fi
-          if [[ "${MATRIX_STAGE}" =~ "virtualbox" ]]; then
-            brew install virtualbox
-            brew install --cask virtualbox-extension-pack
-          fi
-          pip3 install ansible==4.5.0 pywinrm==0.4.2
-          ansible-galaxy collection install ansible.windows:=1.7.2 chocolatey.chocolatey:=1.1.0
-          echo "/usr/local/bin:/usr/local/opt/gnu-sed/libexec/gnubin:/usr/local/opt/coreutils/libexec/gnubin" >> "${GITHUB_PATH}"
