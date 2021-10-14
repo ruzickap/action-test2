@@ -42,8 +42,10 @@ jobs:
           # brew list --formula | xargs  -P8 -I {} \
           #   sh -c "brew info {} | egrep '[0-9]* files, ' | sed 's/^.*[0-9]* files, \(.*\)).*$/{} \1/'" | \
           #   sort -h -r -k2 - | column -t | grep MB | sort -k2 -g
+          brew install dust hudochenkov/sshpass/sshpass
+          dust -r -b -n 60 /
           VirtualBox --help
-          brew upgrade virtualbox
+          brew upgrade virtualbox 
           VirtualBox --help
           brew update &> /dev/null
           VirtualBox --help
