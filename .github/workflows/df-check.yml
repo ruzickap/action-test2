@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - .github/workflows/virt-check.yml
+      - .github/workflows/du-check.yml
 
 jobs:
   check-mac:
