@@ -8,7 +8,7 @@ on:
 
 jobs:
   check-mac:
-    runs-on: macos-11
+    runs-on: macos-10.15
     steps:
       - name: df
         shell: bash
@@ -16,7 +16,6 @@ jobs:
           set -x
           # brew install dust
           # dust -r -b -n 100 /Users
-          ls -la /usr/local/bin/2to3
           df -h /
           rm -rf /Users/runner/Library/Developer /Users/runner/Library/Android /Users/runner/hostedtoolcache /Users/runner/.dotnet
           df -h /
