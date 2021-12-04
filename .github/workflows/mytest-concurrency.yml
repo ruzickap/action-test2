@@ -1,0 +1,44 @@
+name: mytest-concurrency
+
+on:
+  workflow_dispatch:
+    inputs:
+      number:
+        description: Number between 1 .. 5
+        default: 2, 3
+        required: true
+
+jobs:
+  generate-matrix:
+    name: "Generate cluster matrix"
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Get clusters
+        id: set-matrix
+        run: |
+          set -euo pipefail
+          echo "::set-output name=matrix::$( echo -e "1\n2\n3\n4\n5" | jq -c -R -s 'split("\n")[:-1]' )"
+
+  test:
+    name: "*"
+    runs-on: ubuntu-latest
+    needs: generate-matrix
+    concurrency: test-${{ matrix.stage }}
+    strategy:
+      matrix:
+        stage: ${{ fromJSON(needs.generate-matrix.outputs.matrix) }}
+
+    steps:
+      - name: Stage
+        run: |
+          set -euo pipefail
+          echo "*** ${{ matrix.stage }}"
+
+      - name: Stage - sleep
+        if: ${{ contains( github.event.inputs.number, matrix.stage ) }}
+        run: |
+          set -euo pipefail
+          echo "*** ${{ matrix.stage }}"
+          sleep 300
