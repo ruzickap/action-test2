@@ -25,7 +25,9 @@ jobs:
     name: "*"
     runs-on: ubuntu-latest
     needs: generate-matrix
-    concurrency: test-${{ matrix.stage }}
+    concurrency:
+      group: test-${{ matrix.stage }}
+      cancel-in-progress: true
     strategy:
       matrix:
         stage: ${{ fromJSON(needs.generate-matrix.outputs.matrix) }}
