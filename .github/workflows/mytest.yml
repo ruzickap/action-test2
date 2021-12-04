@@ -51,7 +51,7 @@ jobs:
               date ;\
               ls --color -lh /
             "
-          #sleep 300
+          sleep 300
           exit 0
           #exit 1
 
