@@ -1,0 +1,27 @@
+name: mytest
+
+on:
+  workflow_dispatch:
+    inputs:
+      cluster_name:
+        description: Build
+        default: windows
+        required: false
+
+env:
+  BUILDS: |-
+    [
+      "aaa",
+      "bbb",
+      "azzz"
+    ]
+
+
+jobs:
+  create:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        run: |
+          set -eux
+          for I in ${BUILDS[@]}; do echo $I; done
