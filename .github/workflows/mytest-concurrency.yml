@@ -27,7 +27,6 @@ jobs:
     needs: generate-matrix
     concurrency:
       group: test-${{ matrix.stage }}
-      cancel-in-progress: true
     strategy:
       matrix:
         stage: ${{ fromJSON(needs.generate-matrix.outputs.matrix) }}
