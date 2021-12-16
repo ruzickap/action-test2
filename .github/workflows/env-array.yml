@@ -46,7 +46,7 @@ jobs:
           while IFS= read -r BUILD_BOX ; do
             if [[ "${{ github.event.inputs.build }}" =~ ${BUILD_BOX} || "${{ github.event.inputs.build }}" = "all" ]] ; then
               echo "***🔎 ${BUILD_BOX}"
-              BUILDS_MATRIX+=("${BUILD_BOX}")
+              #BUILDS_MATRIX+=("${BUILD_BOX}")
             fi
           done <<< "${BUILDS_LIST}"
 
@@ -57,6 +57,7 @@ jobs:
     name: "*"
     runs-on: ubuntu-latest
     needs: generate-cluster-matrix
+    if: ${{ needs.generate-cluster-matrix.outputs.matrix != '[]' && needs.generate-cluster-matrix.outputs.matrix != '' }}
     concurrency:
       group: build-pipeline-${{ matrix.stage }}
     strategy:
