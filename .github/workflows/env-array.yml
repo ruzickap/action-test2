@@ -9,7 +9,7 @@ on:
         required: true
 
 env:
-  BUILDS_LIST: >-
+  BUILDS_LIST: |
     my_windows-10-enterprise-x64-eval-libvirt
     my_windows-10-enterprise-x64-eval-virtualbox
     ubuntu-18.04-server-amd64-libvirt
@@ -29,7 +29,6 @@ env:
     windows-server-2022-standard-x64-eval-libvirt
     windows-server-2022-standard-x64-eval-virtualbox
 
-
 jobs:
   generate-cluster-matrix:
     name: "Generate cluster matrix"
@@ -42,13 +41,14 @@ jobs:
         run: |
           set -euo pipefail
           declare -a BUILDS_MATRIX
-          read -a -r BUILDS <<< "${BUILDS_LIST}"
-          for BUILD_BOX in "${BUILDS[@]}" ; do
+          # read -a -r BUILDS <<< "${BUILDS_LIST}"
+          # for BUILD_BOX in "${BUILDS[@]}" ; do
+          while IFS= read -r BUILD_BOX ; do
             if [[ "${{ github.event.inputs.build }}" =~ ${BUILD_BOX} || "${{ github.event.inputs.build }}" = "all" ]] ; then
               echo "***🔎 ${BUILD_BOX}"
               BUILDS_MATRIX+=("${BUILD_BOX}")
             fi
-          done
+          done <<< "${BUILDS_LIST}"
 
           jq --compact-output --null-input '$ARGS.positional' --args "${BUILDS_MATRIX[@]}"
           echo "::set-output name=matrix::$( jq --compact-output --null-input '$ARGS.positional' --args "${BUILDS_MATRIX[@]}" )"
