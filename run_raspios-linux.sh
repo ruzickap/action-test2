@@ -1,4 +1,6 @@
-#!/bin/bash -eux
+#!/uar/bin/env bash
+
+set -euxo pipefail
 
 DEVICE="mmcblk0"
 
@@ -16,7 +18,7 @@ lsblk --output NAME,MODEL,MODEL | grep ${DEVICE}
 
 read -r -p "Press enter to remove everything from ${DEVICE} !!!"
 
-zcat ./*raspios*.zip | sudo dd of=/dev/${DEVICE} bs=4M
+zcat ./*raspios*.zip | sudo dd of=/dev/${DEVICE} bs=4M conv=fsync status=progress
 sudo partprobe /dev/${DEVICE}
 
 MYTMP=$(mktemp --directory)
@@ -34,3 +36,4 @@ static domain_name_servers=1.1.1.1
 EOF
 sudo cp owner.txt "${MYTMP}/"
 sudo umount "${MYTMP}"
+sudo sync
