@@ -16,6 +16,8 @@ EOF
 
 lsblk --output NAME,MODEL,MODEL | grep ${DEVICE}
 
+umount /run/media/liveuser/boot /run/media/liveuser/rootfs || true
+
 read -r -p "Press enter to remove everything from ${DEVICE} !!!"
 
 zcat ./*raspios*.zip | sudo dd of=/dev/${DEVICE} bs=4M conv=fsync status=progress
