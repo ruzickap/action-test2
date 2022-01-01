@@ -6,28 +6,30 @@ on:
       build:
         description: Build
         default: all my_windows-10-enterprise-x64-eval-libvirt ubuntu-20.04-server-amd64-libvirt
-        required: true
+        # required: true
 
 env:
   BUILDS_LIST: |
-    my_windows-10-enterprise-x64-eval-libvirt
-    my_windows-10-enterprise-x64-eval-virtualbox
-    ubuntu-18.04-server-amd64-libvirt
-    ubuntu-18.04-server-amd64-virtualbox
-    ubuntu-20.04-desktop-amd64-libvirt
-    ubuntu-20.04-desktop-amd64-virtualbox
-    ubuntu-20.04-server-amd64-libvirt
-    ubuntu-20.04-server-amd64-virtualbox
-    windows-10-enterprise-x64-eval-libvirt
-    windows-10-enterprise-x64-eval-virtualbox
-    windows-server-2012_r2-standard-x64-eval-libvirt
-    windows-server-2012_r2-standard-x64-eval-virtualbox
-    windows-server-2016-standard-x64-eval-libvirt
-    windows-server-2016-standard-x64-eval-virtualbox
-    windows-server-2019-standard-x64-eval-libvirt
-    windows-server-2019-standard-x64-eval-virtualbox
-    windows-server-2022-standard-x64-eval-libvirt
-    windows-server-2022-standard-x64-eval-virtualbox
+    (
+      "my_windows-10-enterprise-x64-eval-libvirt"
+      "my_windows-10-enterprise-x64-eval-virtualbox"
+      "ubuntu-18.04-server-amd64-libvirt"
+      "ubuntu-18.04-server-amd64-virtualbox"
+      "ubuntu-20.04-desktop-amd64-libvirt"
+      "ubuntu-20.04-desktop-amd64-virtualbox"
+      "ubuntu-20.04-server-amd64-libvirt"
+      "ubuntu-20.04-server-amd64-virtualbox"
+      "windows-10-enterprise-x64-eval-libvirt"
+      "windows-10-enterprise-x64-eval-virtualbox"
+      "windows-server-2012_r2-standard-x64-eval-libvirt"
+      "windows-server-2012_r2-standard-x64-eval-virtualbox"
+      "windows-server-2016-standard-x64-eval-libvirt"
+      "windows-server-2016-standard-x64-eval-virtualbox"
+      "windows-server-2019-standard-x64-eval-libvirt"
+      "windows-server-2019-standard-x64-eval-virtualbox"
+      "windows-server-2022-standard-x64-eval-libvirt"
+      "windows-server-2022-standard-x64-eval-virtualbox"
+    )
 
 jobs:
   generate-cluster-matrix:
@@ -39,16 +41,14 @@ jobs:
       - name: Get Matrix Builds
         id: set-matrix
         run: |
-          set -euo pipefail
-          declare -a BUILDS_MATRIX
-          # read -a -r BUILDS <<< "${BUILDS_LIST}"
-          # for BUILD_BOX in "${BUILDS[@]}" ; do
-          while IFS= read -r BUILD_BOX ; do
-            if [[ "${{ github.event.inputs.build }}" =~ ${BUILD_BOX} || "${{ github.event.inputs.build }}" = "all" ]] ; then
+          set -euxo pipefail
+          declare -a BUILDS_MATRIX=${{ env.BUILDS_LIST }}
+          for BUILD_BOX in ${BUILDS_MATRIX[@]} ; do
+            # if [[ "${{ github.event.inputs.build }}" =~ ${BUILD_BOX} || "${{ github.event.inputs.build }}" = "all" ]] ; then
               echo "***🔎 ${BUILD_BOX}"
-              #BUILDS_MATRIX+=("${BUILD_BOX}")
-            fi
-          done <<< "${BUILDS_LIST}"
+              # BUILDS_MATRIX+=("${BUILD_BOX}")
+            # fi
+          done
 
           jq --compact-output --null-input '$ARGS.positional' --args "${BUILDS_MATRIX[@]}"
           echo "::set-output name=matrix::$( jq --compact-output --null-input '$ARGS.positional' --args "${BUILDS_MATRIX[@]}" )"
