@@ -14,6 +14,8 @@ jobs:
         shell: bash
         run: |
           set -x
+          which gh
+          gh --version
           # brew install dust
           # dust -r -b -n 100 /Users
           df -h /
