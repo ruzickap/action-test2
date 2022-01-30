@@ -1,0 +1,18 @@
+name: curl-staging
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/curl-staging.yml
+
+jobs:
+  curl-staging:
+    runs-on: ubuntu-latest
+    steps:
+      - name: curl-staging
+        run: |
+          set -euxo pipefail
+          sudo curl -sL https://letsencrypt.org/certs/staging/letsencrypt-stg-root-x1.pem -o /usr/local/share/ca-certificates/letsencrypt-stg-root-x1.crt
+          # sudo curl -sL https://letsencrypt.org/certs/staging/letsencrypt-stg-root-x1.pem -o /etc/ssl/certs/letsencrypt-stg-root-x1.crt
+          sudo update-ca-certificates
