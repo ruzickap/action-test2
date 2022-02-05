@@ -1,0 +1,63 @@
+name: get-github-pages-url
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/get-github-pages-url.yml
+
+jobs:
+  get-github-pages-url:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get GH Pages URL
+        id: gh_pages_url
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            let result = await github.request('GET /repos/:owner/:repo/pages', {
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            console.log(result.data.html_url);
+            return result.data.html_url
+
+      - name: test
+        run: |
+          set -x
+          echo "${{ steps.gh_pages_url.outputs.result }}"
+          echo ${{ steps.gh_pages_url.outputs.result }}
+
+      # - name: test
+      #   run: |
+      #     echo "The page updated was: ${{ steps.gh_pages_url.outputs.result }}"
+
+      # - name: Get GH Pages URL
+      #   id: gh_pages_url
+      #   run: |
+      #     set -euxo pipefail
+      #     curl -s -u "${{ secrets.GITHUB_TOKEN }}:x-oauth-basic" https://api.github.com/repos/${GITHUB_REPOSITORY%/*}/${GITHUB_REPOSITORY##*/}/pages
+      #     GH_PAGES_URL=$(curl -s -u "${{ secrets.GITHUB_TOKEN }}:x-oauth-basic" https://api.github.com/repos/${GITHUB_REPOSITORY%/*}/${GITHUB_REPOSITORY##*/}/pages | jq -r '.html_url')
+      #     echo "GH_PAGES_URL=${GH_PAGES_URL}" >> "${GITHUB_ENV}"
+      #     echo "::set-output name=gh_pages_url::${GH_PAGES_URL}"
+
+
+      # - name: test
+      #   run: |
+      #     echo "The page updated was: ${GH_PAGES_URL}"
+
+      # - name: Broken link checker
+      #   env:
+      #     EXCLUDE: |
+      #       mylabs.dev
+      #   run: |
+      #     if [ -s CNAME ]; then
+      #       INPUT_URL="https://$(cat CNAME)"
+      #     else
+      #       INPUT_URL="https://${GITHUB_REPOSITORY%/*}.github.io/${GITHUB_REPOSITORY##*/}"
+      #     fi
+      #     export INPUT_URL
+      #     INPUT_CMD_PARAMS="--buffer-size=8192 --max-connections=10 --color=always --exclude=($( echo "${EXCLUDE}" | tr '\n' '|' ))"
+      #     export INPUT_CMD_PARAMS
+      #     wget -qO- https://raw.githubusercontent.com/ruzickap/action-my-broken-link-checker/v2/entrypoint.sh | bash
