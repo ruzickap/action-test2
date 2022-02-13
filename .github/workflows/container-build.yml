@@ -5,11 +5,11 @@ on:
   push:
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+*'
-  schedule:
-    - cron: '5 5 * * *'
+#  schedule:
+#    - cron: '5 5 * * *'
 
 env:
-  CONTAINER_IMAGE_NAME: raw-photo-tools
+  CONTAINER_IMAGE_NAME: test123
   CONTAINER_REGISTRY: ghcr.io
   CONTAINER_REGISTRY_USER: ${{ github.repository_owner }}
   CONTAINER_REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
