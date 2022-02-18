@@ -1,0 +1,16 @@
+name: test123
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/test123.yml
+
+jobs:
+  test123:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test123
+        run: |
+          set -euxo pipefail
+          date
