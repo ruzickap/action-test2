@@ -1,0 +1,24 @@
+name: Links
+
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore:
+      - main
+    paths:
+      - .github/workflows/links.yml
+
+jobs:
+  linkChecker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Link Checker
+        id: lychee
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: lycheeverse/lychee-action@v1.3.0
+        with:
+          args: --no-progress --exclude 'PACKER_LATEST_VERSION|VAGRANT_LATEST_VERSION|UBUNTU_TYPE' './**/*.md'
+          fail: true
