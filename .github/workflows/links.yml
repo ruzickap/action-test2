@@ -20,5 +20,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         uses: lycheeverse/lychee-action@v1.3.0
         with:
-          args: --no-progress --exclude 'PACKER_LATEST_VERSION|VAGRANT_LATEST_VERSION|UBUNTU_TYPE' './**/*.md'
+          args: --no-progress --exclude 'PACKER_LATEST_VERSION|VAGRANT_LATEST_VERSION|UBUNTU_TYPE' -- './**/*.md'
           fail: true
