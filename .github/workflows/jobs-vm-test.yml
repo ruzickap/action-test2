@@ -1,0 +1,28 @@
+name: Test Jobs
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+    - '.github/workflows/jobs-vm-test.yml'
+
+jobs:
+  test-job-1:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Test1
+      run: |
+        set -x
+        ip a s eth0
+        uptime
+        curl -s ifconfig.me
+
+  test-job-2:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Test2
+      run: |
+        set -x
+        ip a s eth0
+        uptime
+        curl -s ifconfig.me
