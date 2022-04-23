@@ -1,0 +1,31 @@
+name: deployment-key-tf
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+    - '.github/workflows/deployment-key-tf.yml'
+
+env:
+  TF_INPUT: "0"
+  TF_CLI_ARGS_apply: "-auto-approve"
+  TF_CLI_ARGS_destroy: "-auto-approve"
+
+jobs:
+  tf-test-job:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 💡🔪 Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.1.2
+
+    - name: Check out repository code
+      uses: actions/checkout@v3
+
+    - name: TF test
+      run: |
+        set -x
+        cd terraform
+        terraform init
+        terraform apply

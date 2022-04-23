@@ -1,0 +1,30 @@
+name: Fail step
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+    - '.github/workflows/failure-step-test.yml'
+
+jobs:
+  test-job-1:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Test1
+      id: test1
+      run: |
+        set -x
+        echo "Failing on purpose"
+        exit 1
+
+    - name: Test2
+      id: test2
+      run: |
+        set -x
+        echo "Not running..."
+
+
+    - name: Debug Job Failure
+      if: ${{ always() && (steps.test1.outcome == 'failure') }}
+      run: |
+        echo "******** Job Logs from ********"
