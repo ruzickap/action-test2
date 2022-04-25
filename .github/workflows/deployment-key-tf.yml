@@ -6,6 +6,8 @@ on:
     paths:
     - '.github/workflows/deployment-key-tf.yml'
 
+permissions: write-all
+
 env:
   TF_INPUT: "0"
   TF_CLI_ARGS_apply: "-auto-approve"
