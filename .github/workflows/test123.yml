@@ -12,9 +12,4 @@ jobs:
         uses: ruzickap/action-my-broken-link-checker@v2
         with:
           url: https://petrhurtak.com
-          cmd_params: >
-            --timeout=30
-            --buffer-size=10000
-            --header="user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36"
-            --color=always
-            --verbose
+          cmd_params: ' --timeout=30 --buffer-size=10000 --header="user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36" --color=always --verbose'
